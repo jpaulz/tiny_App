@@ -7,6 +7,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.set("view engine", "ejs");
 
+const generateRandomString = function() {   //Generating a random string of 6 random alphanumeric characters
+  return (Math.random().toString(36).substr(2, 6));
+};
+generateRandomString();
+
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
