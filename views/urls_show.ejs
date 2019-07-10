@@ -13,11 +13,21 @@
   <div class="card text-center">
       <div class="card-header"></div>
       <div class="card-body">
-        <h5 class="card-title">TinyURL for: <%= longURL %></h5>
+        <h5 class="card-title">TinyURL for: <a href="/u/<%= longURL %>"><%= longURL %></a></h5>
         <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
-        <a href='#'>shorten a new link</a href='#'></a>
+      
       </div>
-    <div class="card-footer text-muted"></div>
+    <div class="card-footer text-muted">
+        <form> 
+            <a><label for="Edit"></label></a>
+            <h1 class="card-text">Edit</h1>
+            New URL:
+            <input type="text"required
+         minlength="4" maxlength="30" size=""><button>Submit</button>
+        </form>
+    </div>
+   
+   
   </div>
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
