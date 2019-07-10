@@ -51,11 +51,16 @@ app.get("/u/:shortURL", (req, res) => {
 app.post("/urls", (req, res) => {
   urlDatabase[generateRandomString()] = req.body.longURL;
   res.status(200).send();
-  
 });
 
 app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
+  res.redirect("/urls");
+});
+
+app.post("/urls/:id", (req, res) => {
+  urlDatabase[req.params.id] = req.body.newLongURL;
+  console.log(req.params.id);
   res.redirect("/urls");
 });
 
