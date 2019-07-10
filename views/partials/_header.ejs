@@ -11,13 +11,17 @@
       </div>
     </div>
     <div>
+      <% if(!username) { %>
       <form action="/login" method="POST" >
-      <!-- <a class="nav-item nav-link" href="/urls/new"> -->
           <input type="text" name="username" placeholder="        username" required
           minlength="4" maxlength="30" size="">
         <button type="submit" class="btn btn-primary">Login</button></a>
-        <p><%= username %></p>
     </form>
+    <% } else{ %>  
+      <form action="/logout" method="POST">
+     <span style="margin: 20px;">Logged in As: <%= username %></span><button style="background: transparent;
+     border-color: black;border-radius: 4px;"type="submit" id="logout-button"> Logout</button></a></form>
+    <% } %>
   </div>
   </nav>
 </header>
