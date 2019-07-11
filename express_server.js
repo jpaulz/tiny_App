@@ -77,6 +77,16 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
   const randomUserID = generateRandomString();
   const { email, password } = req.body;// <- ES6 for const email = req.body.email etc
+  if (email === "" || password === "") {
+    res.status(400).send();
+  }
+  const userValues = Object.values(users); //Accessing the objects inside the global users object
+  const emailExists = userValues.some((user) => { //Checking if email exists in the global users object
+    return email === user.email;
+  });
+  if (emailExists) {
+    res.status(400).send();
+  }
   users[randomUserID] = {
     id: randomUserID,
     email: email,
