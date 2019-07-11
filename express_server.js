@@ -75,13 +75,15 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  let randomUserID = generateRandomString();
-  const { email, password } = req.body;
+  const randomUserID = generateRandomString();
+  const { email, password } = req.body;// <- ES6 for const email = req.body.email etc
   users[randomUserID] = {
     id: randomUserID,
-    email, password
+    email: email,
+    password: password
   };
-  res.redirect("urls");
+  res.cookie("user_id", randomUserID);//setting a user_id cookie containing the user's newly generated ID.
+  res.redirect("/urls");
 });
 
 app.post("/urls", (req, res) => {
