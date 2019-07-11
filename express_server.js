@@ -4,7 +4,7 @@ const PORT = 8080; // default port 8080
 const cookieParser = require('cookie-parser');
 
 
-const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");// body parser is a middleware that helps to see only the data from submitted
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -40,12 +40,15 @@ const urlDatabase = {
 };
 
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies["username"]};
+  let id = req.cookies.user_id;
+  let user = users[id];
+  console.log(id);
+  let templateVars = { urls: urlDatabase, username: user.email};
   res.render("urls_index", templateVars);
 });
-app.get("/register", (req, res) => {
-  res.render("register");
-});
+// app.get("/register", (req, res) => {
+//   res.render("register");
+// });
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -87,11 +90,13 @@ app.post("/register", (req, res) => {
   if (emailExists) {
     res.status(400).send();
   }
+  
   users[randomUserID] = {
     id: randomUserID,
     email: email,
     password: password
   };
+  console.log(users);
   res.cookie("user_id", randomUserID);//setting a user_id cookie containing the user's newly generated ID.
   res.redirect("/urls");
 });
@@ -124,3 +129,4 @@ app.post("/logout", (req, res) => {  //logging out and clearing the cookies
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
