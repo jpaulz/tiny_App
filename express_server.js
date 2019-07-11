@@ -7,11 +7,14 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");
 
 app.use(cookieParser());
-
 app.use(bodyParser.urlencoded({extended: true}));
-
-
 app.set("view engine", "ejs");
+app.use((req, res, next) => {
+  res.locals = {
+    username: req.cookies["username"]
+  };
+  next();
+});
 
 const generateRandomString = function() {   //Generating a random string of 6 random alphanumeric characters
   return (Math.random().toString(36).substr(2, 6));
@@ -26,8 +29,10 @@ const urlDatabase = {
 
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase, username: req.cookies["username"]};
-
   res.render("urls_index", templateVars);
+});
+app.get("/register", (req, res) => {
+  res.render("register");
 });
 
 app.get("/", (req, res) => {
