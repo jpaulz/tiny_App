@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 const generateRandomString = function() {   //Generating a random string of 6 random alphanumeric characters
   return (Math.random().toString(36).substr(2, 6));
 };
-generateRandomString();
+
 
 const users = {
   "userRandomID": {
@@ -33,6 +33,7 @@ const users = {
     password: "dishwasher-funk"
   }
 };
+
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
@@ -69,13 +70,17 @@ app.get("/u/:shortURL", (req, res) => {
   res.redirect(urlDatabase[req.params.shortURL]);
 });
 
-
-
 app.get("/register", (req, res) => {
   res.render("register");
 });
 
 app.post("/register", (req, res) => {
+  let randomUserID = generateRandomString();
+  const { email, password } = req.body;
+  users[randomUserID] = {
+    id: randomUserID,
+    email, password
+  };
   res.redirect("urls");
 });
 
