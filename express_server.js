@@ -118,6 +118,18 @@ app.post("/urls", (req, res) => {
 });
 
 /**
+ * NEW
+ */
+app.get("/urls/new", (req, res) => {
+  let templateVars = { user: users[req.cookies.user_id]};
+  console.log("#####", req.cookies);
+  if (!req.cookies.user_id) {   //If user is not logged in
+    return res.redirect("/login");
+  }
+  res.render("urls_new", templateVars);
+});
+
+/**
  * SHORT URL
  */
 app.get("/urls/:shortURL", (req, res) => {
@@ -135,14 +147,6 @@ app.post("/urls/:id", (req, res) => {
   urlDatabase[req.params.id] = req.body.newLongURL;
   console.log(req.params.id);
   res.redirect("/urls");
-});
-
-/**
- * NEW
- */
-app.get("/urls/new", (req, res) => {
-  let templateVars = { user: users[req.cookies.user_id]};
-  res.render("urls_new", templateVars);
 });
 
 /**
