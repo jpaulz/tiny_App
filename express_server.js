@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use((req, res, next) => {
   res.locals = {
-    username: req.cookies["username"]
+    "user_id": req.cookies["user_id"]
   };
   next();
 });
