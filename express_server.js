@@ -36,9 +36,6 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-
-
-
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
@@ -161,7 +158,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
  * LOGOUT
  */
 app.post("/logout", (req, res) => {  //logging out and clearing the cookies
-  res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect("/urls");
 });
 
