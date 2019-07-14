@@ -163,10 +163,14 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 /**
- * ID
+ * EDIT
  */
-app.post("/urls/:id", (req, res) => {
-  urlDatabase[req.params.id] = {longURL: req.body.longURL, userID: req.cookies.user_id };
+app.post("/urls/:shortURL", (req, res) => {
+  const userURLs = urlsForUser(req.cookies.user_id);
+  if (!userURLs[req.params.shortURL]) {
+    return res.status(404).send();
+  }
+  userURLs[req.params.shortURL] = {longURL: req.body.longURL, userID: req.cookies.user_id };
   console.log(req.params.id);
   res.redirect("/urls");
 });
@@ -175,7 +179,11 @@ app.post("/urls/:id", (req, res) => {
  * DELETE
  */
 app.post("/urls/:shortURL/delete", (req, res) => {
-  delete urlDatabase[req.params.shortURL];
+  const userURLs = urlsForUser(req.cookies.user_id);
+  if (!userURLs[req.params.shortURL]) {
+    return res.status(404).send();
+  }
+  delete userURLs[req.params.shortURL];
   res.redirect("/urls");
 });
 
