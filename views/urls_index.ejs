@@ -25,6 +25,13 @@
         </tr>
       </thead>
       <tbody>
+        <% if (!user){ %>
+          <tr>
+            <td colspan="4"> <!-- created table cell that spans width of four columns-->
+              Please login or register to see URLs.
+            </td>
+          </tr>
+        <% } %>
         <% for(let url in urls) { %>
           <tr>
             <td><%= url %></td>

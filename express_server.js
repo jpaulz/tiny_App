@@ -39,18 +39,17 @@ const generateRandomString = function() {   //Generating a random string of 6 ra
   return (Math.random().toString(36).substr(2, 6));
 };
 
+const urlsForUser = function(currentUserId) {
+  const filteredUrls = {};
+  const keys = Object.keys(urlDatabase); //Object.key changes object to an array
+  keys.forEach(function(key) {
+    if (urlDatabase[key].userID === currentUserId) {
+      filteredUrls[key] = urlDatabase[key]; //Added key-value pair from urlDatabase that matches this user Id
+    }
+  });
+  return filteredUrls;
+};
 
-
-
-
-
-
-
-//Assignment - Users Can Only See Their Own Shortened URLs
-//write function below:
-// const urlsForUser = function(id) {
-
-// };
 
 
 
@@ -132,7 +131,7 @@ app.post("/login", (req, res) => {
  * URLS
  */
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, user: users[req.cookies.user_id]};
+  let templateVars = { urls: urlsForUser(req.cookies.user_id), user: users[req.cookies.user_id]};
   res.render("urls_index", templateVars);
 });
 
