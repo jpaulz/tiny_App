@@ -3,6 +3,7 @@ const app = express();
 const PORT = 8080; // default port 8080
 const cookieParser = require('cookie-parser');
 const bodyParser = require("body-parser");// body parser is a middleware that helps to see only the data from submitted
+const bcrypt = require('bcrypt');
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -96,7 +97,7 @@ app.post("/register", (req, res) => {
   users[randomUserID] = {
     id: randomUserID,
     email: email,
-    password: password
+    password: bcrypt.hashSync(password, 10)
   };
   console.log(users);
   res.cookie("user_id", randomUserID);//setting a user_id cookie containing the user's newly generated ID.
@@ -152,12 +153,15 @@ app.get("/urls/new", (req, res) => {
 });
 
 /**
- * SHORT URL
+ * SHORT URL SHOWING THE PAGE
  */
 app.get("/urls/:shortURL", (req, res) => {
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.cookies.user_id] };
   res.render("urls_show", templateVars);
 });
+/**
+ * SHORT URL redirect to long URL
+ */
 app.get("/u/:shortURL", (req, res) => {
   res.redirect(urlDatabase[req.params.shortURL].longURL);
 });
