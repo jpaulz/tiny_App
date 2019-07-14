@@ -14,10 +14,6 @@ app.use((req, res, next) => {
   next();
 });
 
-const generateRandomString = function() {   //Generating a random string of 6 random alphanumeric characters
-  return (Math.random().toString(36).substr(2, 6));
-};
-
 const users = {
   "aJ48lW": {
     id: "aJ48lW",
@@ -35,6 +31,34 @@ const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48Ty" }
 };
+
+/*
+ * Functions
+ */
+const generateRandomString = function() {   //Generating a random string of 6 random alphanumeric characters
+  return (Math.random().toString(36).substr(2, 6));
+};
+
+
+
+
+
+
+
+
+//Assignment - Users Can Only See Their Own Shortened URLs
+//write function below:
+// const urlsForUser = function(id) {
+
+// };
+
+
+
+
+
+
+
+
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -122,7 +146,6 @@ app.post("/urls", (req, res) => {
  */
 app.get("/urls/new", (req, res) => {
   let templateVars = { user: users[req.cookies.user_id]};
-  console.log("#####", req.cookies);
   if (!req.cookies.user_id) {   //If user is not logged in
     return res.redirect("/login");
   }
