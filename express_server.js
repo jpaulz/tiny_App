@@ -121,12 +121,13 @@ app.post("/login", (req, res) => {
   if (!existingUser) {
     return res.status(403).send();
   }
-  if (existingUser.password !== password) {
+  if (bcrypt.compareSync(password, existingUser.password)) {
     return res.status(403).send();
   }
   res.cookie("user_id", existingUser.id);
   res.redirect("/urls");
 });
+
 
 /**
  * URLS
