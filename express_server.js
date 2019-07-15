@@ -1,9 +1,10 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const PORT = 8080; // default port 8080
 const cookieSession = require('cookie-session');
-const bodyParser = require("body-parser");// body parser is a middleware that helps to see only the data from submitted
+const bodyParser = require('body-parser');// body parser is a middleware that helps to see only the data from submitted
 const bcrypt = require('bcrypt');
+const { getUserByEmail } = require('./helpers');
 
 app.use(cookieSession({
   secret: "mbikujnvbhytgvf"
@@ -59,13 +60,13 @@ const urlsForUser = function(currentUserId) {
   return filteredUrls;
 };
 
-const getUserByEmail = function(email, database) {
-  const userValues = Object.values(database); //Accessing the objects inside the global users object
-  userValues.find((user) => { //Finding existing user by email
-    return email === user.email;
-  });
-  return null;
-};
+// const getUserByEmail = function(email, database) {
+//   const userValues = Object.values(database); //Accessing the objects inside the global users object
+//   userValues.find((user) => { //Finding existing user by email
+//     return email === user.email;
+//   });
+//   return null;
+// };
 
 
 app.get("/", (req, res) => {
