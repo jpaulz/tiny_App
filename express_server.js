@@ -59,13 +59,13 @@ const urlsForUser = function(currentUserId) {
   return filteredUrls;
 };
 
-
-
-
-
-
-
-
+const getUserByEmail = function(email, database) {
+  const userValues = Object.values(database); //Accessing the objects inside the global users object
+  userValues.find((user) => { //Finding existing user by email
+    return email === user.email;
+  });
+  return null;
+};
 
 
 app.get("/", (req, res) => {
@@ -94,10 +94,7 @@ app.post("/register", (req, res) => {
   if (email === "" || password === "") {
     res.status(400).send();
   }
-  const userValues = Object.values(users); //Accessing the objects inside the global users object
-  const emailExists = userValues.some((user) => { //Checking if email exists in the global users object
-    return email === user.email;
-  });
+  const emailExists = getUserByEmail(email, users);
   if (emailExists) {
     return res.status(400).send();
   }
@@ -122,10 +119,7 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  const userValues = Object.values(users); //Accessing the objects inside the global users object
-  const existingUser = userValues.find((user) => { //Finding existing user by email
-    return email === user.email;
-  });
+  const existingUser = getUserByEmail(email, users);
   if (!existingUser) {
     return res.status(403).send();
   }
