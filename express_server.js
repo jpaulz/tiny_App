@@ -86,7 +86,7 @@ app.get("/urls", (req, res) => {
 
 app.post("/urls", (req, res) => {
   urlDatabase[generateRandomString()] = {longURL: req.body.longURL, userID: req.session.user_id };
-  res.status(200).send();
+  res.redirect("/urls");
 });
 
 /**
