@@ -18,29 +18,8 @@ app.use((req, res, next) => {
   next();
 });
 
-const users = {
-  "aJ48lW": {
-    id: "aJ48lW",
-    email: "user@example.com",
-    password: "purple-monkey-dinosaur"
-  },
-  "aJ48Ty": {
-    id: "aJ48Ty",
-    email: "user2@example.com",
-    password: "dishwasher-funk"
-  },
-  "geu7Gk": {
-    id: "geu7Gk",
-    email: "a@b.c",
-    password: "abc123"
-  }
-};
-
-const urlDatabase = {
-  b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
-  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48Ty" },
-  anc46E: { longURL: "https://www.yandex.ru", userID: "geu7Gk" }
-};
+const users = {};
+const urlDatabase = {};
 
 /*
  * Functions
@@ -59,14 +38,6 @@ const urlsForUser = function(currentUserId) {
   });
   return filteredUrls;
 };
-
-app.get("/", (req, res) => {
-  res.send("Hello!");
-});
-
-app.get("/urls.json", (req, res) => {
-  res.json(urlDatabase);
-});
 
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>");
@@ -96,7 +67,7 @@ app.post("/register", (req, res) => {
     email: email,
     password: bcrypt.hashSync(password, 10)
   };
-  console.log(users);
+  
   req.session["user_id"] = randomUserID;//setting a user_id cookie containing the user's newly generated ID.
   res.redirect("/urls");
 });
@@ -170,7 +141,6 @@ app.post("/urls/:shortURL", (req, res) => {
     return res.status(404).send();
   }
   userURLs[req.params.shortURL] = {longURL: req.body.longURL, userID: req.session.user_id };
-  console.log(req.params.id);
   res.redirect("/urls");
 });
 
@@ -195,6 +165,5 @@ app.post("/logout", (req, res) => {  //logging out and clearing the cookies
 });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
 });
 
