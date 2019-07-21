@@ -37,11 +37,15 @@ app.post("/register", (req, res) => {
   const randomUserID = generateRandomString();
   const { email, password } = req.body;// <- ES6 for const email = req.body.email etc
   if (email === "" || password === "") {
-    res.status(400).send();
+    // res.status(400).send();
+    let templateVars = { "error_message": "Email or password can not be empty.", user: null };
+    res.render("error", templateVars);
   }
   const emailExists = getUserByEmail(email, users);
   if (emailExists) {
-    return res.status(400).send();
+    // return res.status(400).send();
+    let templateVars = { "error_message": "User with this email already exists.", user: null };
+    res.render("error", templateVars);
   }
   
   users[randomUserID] = {
@@ -66,10 +70,14 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const existingUser = getUserByEmail(email, users);
   if (!existingUser) {
-    return res.status(403).send();
+    // return res.status(403).send();
+    let templateVars = { "error_message": "This user name does not exist.", user: null };
+    res.render("error", templateVars);
   }
   if (!bcrypt.compareSync(password, existingUser.password)) {
-    return res.status(403).send();
+    // return res.status(403).send();
+    let templateVars = { "error_message": "Wrong password.", user: null };
+    res.render("error", templateVars);
   }
   req.session["user_id"] = existingUser.id;
   res.redirect("/urls");
