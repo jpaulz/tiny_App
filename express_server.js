@@ -4,7 +4,8 @@ const PORT = 8080; // default port 8080
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');// body parser is a middleware that helps to see only the data from submitted
 const bcrypt = require('bcrypt');
-const { getUserByEmail } = require('./helpers');
+const {  getUserByEmail, generateRandomString, urlsForUser } = require('./helpers');
+
 
 app.use(cookieSession({
   secret: "mbikujnvbhytgvf"
@@ -24,20 +25,6 @@ const urlDatabase = {};
 /*
  * Functions
  */
-const generateRandomString = function() {   //Generating a random string of 6 random alphanumeric characters
-  return (Math.random().toString(36).substr(2, 6));
-};
-
-const urlsForUser = function(currentUserId) {
-  const filteredUrls = {};
-  const keys = Object.keys(urlDatabase); //Object.key changes object to an array
-  keys.forEach(function(key) {
-    if (urlDatabase[key].userID === currentUserId) {
-      filteredUrls[key] = urlDatabase[key]; //Added key-value pair from urlDatabase that matches this user Id
-    }
-  });
-  return filteredUrls;
-};
 
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>");
@@ -98,7 +85,7 @@ app.post("/login", (req, res) => {
  * URLS
  */
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlsForUser(req.session.user_id), user: users[req.session.user_id]};
+  let templateVars = { urls: urlsForUser(req.session.user_id, urlDatabase), user: users[req.session.user_id]};
   res.render("urls_index", templateVars);
 });
 
@@ -136,7 +123,7 @@ app.get("/u/:shortURL", (req, res) => {
  * EDIT
  */
 app.post("/urls/:shortURL", (req, res) => {
-  const userURLs = urlsForUser(req.session.user_id);
+  const userURLs = urlsForUser(req.session.user_id, urlDatabase);
   if (!userURLs[req.params.shortURL]) {
     return res.status(404).send();
   }
@@ -148,7 +135,7 @@ app.post("/urls/:shortURL", (req, res) => {
  * DELETE
  */
 app.post("/urls/:shortURL/delete", (req, res) => {
-  const userURLs = urlsForUser(req.session.user_id);
+  const userURLs = urlsForUser(req.session.user_id, urlDatabase);
   if (!userURLs[req.params.shortURL]) {
     return res.status(404).send();
   }
