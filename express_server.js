@@ -122,7 +122,7 @@ app.post("/urls/:shortURL", (req, res) => {
   if (!userURLs[req.params.shortURL]) {
     return res.status(404).send();
   }
-  userURLs[req.params.shortURL] = {longURL: req.body.longURL, userID: req.session.user_id };
+  urlDatabase[req.params.shortURL] = {longURL: req.body.newLongURL, userID: req.session.user_id };
   res.redirect("/urls");
 });
 
