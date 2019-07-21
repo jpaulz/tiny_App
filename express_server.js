@@ -68,7 +68,7 @@ app.post("/login", (req, res) => {
   if (!existingUser) {
     return res.status(403).send();
   }
-  if (bcrypt.compareSync(password, existingUser.password)) {
+  if (!bcrypt.compareSync(password, existingUser.password)) {
     return res.status(403).send();
   }
   req.session["user_id"] = existingUser.id;
