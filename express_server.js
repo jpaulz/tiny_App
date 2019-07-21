@@ -22,14 +22,9 @@ app.use((req, res, next) => {
 const users = {};
 const urlDatabase = {};
 
-/*
- * Functions
- */
-
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>");
+app.get("/", (req, res) => {
+  res.redirect("/urls");
 });
-
 /**
  * REGISTER
  */
