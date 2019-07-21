@@ -161,7 +161,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
  */
 app.post("/logout", (req, res) => {  //logging out and clearing the cookies
   req.session = null;
-  res.redirect("/urls");
+  res.redirect("/login");
 });
 
 app.listen(PORT, () => {
